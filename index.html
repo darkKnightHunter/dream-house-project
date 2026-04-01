@@ -1,0 +1,757 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hudson Estate</title>
+    <script src="Scripts/aframe.min.js"></script>
+  </head>
+  <body>
+    <a-scene
+      fog="type: linear; color: #f5d090; near: 80; far: 220"
+      renderer="antialias: true; colorManagement: true; physicallyCorrectLights: true; exposure: 1.1"
+      shadow="type: pcfsoft; autoUpdate: true"
+    >
+      <!-- ── CAMERAS ── -->
+      <a-entity position="0 20 0" rotation="0 0 0">
+        <a-camera active="false"></a-camera>
+      </a-entity>
+
+      <a-entity position="0 9 30" rotation="0 0 0">
+        <a-camera wasd-controls="acceleration: 20" look-controls active="true">
+        </a-camera>
+      </a-entity>
+
+      <!-- ── ASSETS ── -->
+      <a-assets timeout="90000">
+        <a-asset-item id="house" src="models/8k/scene.gltf"></a-asset-item>
+        <a-asset-item
+          id="cabnet"
+          src="models/kitchen_cabinets/scene.gltf"
+        ></a-asset-item>
+        <a-asset-item
+          id="shower"
+          src="models/shower_middlepoly/scene.gltf"
+        ></a-asset-item>
+        <a-asset-item id="toilet" src="models/toilet/scene.gltf"></a-asset-item>
+        <a-asset-item
+          id="sink"
+          src="models/bathroom_sink_cabinet/scene.gltf"
+        ></a-asset-item>
+        <a-asset-item
+          id="car"
+          src="models/2016_bmw_x6m/bmw_x3_m40i.glb"
+        ></a-asset-item>
+        <a-asset-item
+          id="car2"
+          src="models/2016_bmw_x6m/bmw_x3_m40i.glb"
+        ></a-asset-item>
+        <a-asset-item id="bed" src="models/bed_06/scene.gltf"></a-asset-item>
+        <a-asset-item
+          id="wardrobe"
+          src="models/wardrobe/scene.gltf"
+        ></a-asset-item>
+        <a-asset-item
+          id="pool"
+          src="models/swimming_pool(2)/scene.gltf"
+        ></a-asset-item>
+      </a-assets>
+
+      <!-- ── SKY — animated gradient sunrise/golden hour ── -->
+      <a-sky color="#e8a040" id="sky"></a-sky>
+
+      <!-- ── LIGHTING ── -->
+      <!-- Golden hour sun — low angle, warm, long shadows -->
+      <a-light
+        type="directional"
+        color="#f5aa40"
+        intensity="1.6"
+        position="-20 14 18"
+        cast-shadow="true"
+        shadow-camera-far="120"
+        shadow-camera-left="-40"
+        shadow-camera-right="40"
+        shadow-camera-top="40"
+        shadow-camera-bottom="-40"
+        shadow-bias="-0.001"
+      >
+      </a-light>
+      <!-- Warm bounce fill from opposite -->
+      <a-light
+        type="directional"
+        color="#f0c060"
+        intensity="0.4"
+        position="20 8 -15"
+      ></a-light>
+      <!-- Cool sky ambient -->
+      <a-light type="ambient" color="#d0b888" intensity="0.5"></a-light>
+      <!-- Hemisphere sky/ground -->
+      <a-light
+        type="hemisphere"
+        color="#b8cce0"
+        ground-color="#7a6840"
+        intensity="0.35"
+      ></a-light>
+      <!-- Pool shimmer point -->
+      <a-light
+        type="point"
+        position="-2 0.5 -1"
+        color="#30a8d8"
+        intensity="0.4"
+        distance="8"
+      ></a-light>
+
+      <!-- ── HOUSE ── -->
+      <a-entity
+        gltf-model="#house"
+        scale="5 5 5"
+        shadow="cast: true; receive: true"
+      >
+      </a-entity>
+
+      <a-entity
+        gltf-model="#car2"
+        scale="160 160 160"
+        position="-40 0 0"
+        rotation="0 -90 0"
+        shadow="cast: true"
+      >
+      </a-entity>
+
+      <!-- ── GROUND LAYERS ── -->
+      <!-- Outer grass -->
+      <a-plane
+        material="src: Imgs/grass.jpg; repeat: 15 15"
+        position="0 -0.1 -25"
+        rotation="-90 0 0"
+        width="400"
+        height="400"
+        shadow="receive: true"
+      >
+      </a-plane>
+
+      <!-- Inner floor tiles -->
+      <a-plane
+        material="src: Imgs/floor-1024.jpg; repeat: 15 15"
+        position="0 0.1 -25"
+        rotation="-90 0 0"
+        width="150"
+        height="150"
+        shadow="receive: true"
+      >
+      </a-plane>
+
+      <!-- Near ground -->
+      <a-plane
+        material="src: Imgs/ground.jpg; repeat: 50 50"
+        position="0 0 -4"
+        rotation="-90 0 0"
+        width="150"
+        height="70"
+        shadow="receive: true"
+      >
+      </a-plane>
+
+      <!-- Front walkway -->
+      <a-box
+        material="src: Imgs/Walkway.jpg; repeat: 5 15"
+        position="-6 0.1 15"
+        width="30"
+        depth="22.5"
+        height="0.1"
+        shadow="receive: true"
+      >
+      </a-box>
+
+      <!-- ── BEDS ── -->
+      <a-entity
+        gltf-model="#bed"
+        position="-9.7 16.9 0"
+        scale="20 30 30"
+        rotation="0 90 0"
+      ></a-entity>
+      <a-entity
+        gltf-model="#bed"
+        position="-0.6 0 2"
+        scale="1 1 1"
+        rotation="0 180 0"
+      ></a-entity>
+
+      <!-- ── POOL ── -->
+      <a-entity
+        gltf-model="#pool"
+        position="-2 -0.54 -1"
+        scale="0.2 0.05 0.2"
+        rotation="0 180 0"
+      >
+      </a-entity>
+
+      <!-- Pool water surfaces -->
+      <a-box
+        class="water"
+        position="-2 -0.53 -1"
+        width="0.8"
+        depth="1.6"
+        height="0.03"
+        material="src: Imgs/water.jpeg; transparent: true; opacity: 0.7; repeat: 2 2"
+      >
+      </a-box>
+      <a-box
+        class="water"
+        position="3.2 0 0.1"
+        width="3.25"
+        depth="1.19"
+        height="0.01"
+        material="src: Imgs/water.jpeg; transparent: true; opacity: 0.6; repeat: 2 2"
+      >
+      </a-box>
+
+      <!-- ══ BACKGROUND ATMOSPHERE ══════════════════════════════════ -->
+
+      <!-- ── TREES — left cluster ── -->
+      <a-entity position="-55 0 -20">
+        <a-cylinder
+          color="#4a2e10"
+          height="10"
+          radius="0.5"
+          position="0 5 0"
+        ></a-cylinder>
+        <a-sphere color="#2d6018" radius="7" position="0 13 0"></a-sphere>
+      </a-entity>
+      <a-entity position="-62 0 -5">
+        <a-cylinder
+          color="#3a2208"
+          height="8"
+          radius="0.4"
+          position="0 4 0"
+        ></a-cylinder>
+        <a-sphere color="#356920" radius="5.5" position="0 11 0"></a-sphere>
+      </a-entity>
+      <a-entity position="-50 0 10">
+        <a-cylinder
+          color="#4a2e10"
+          height="9"
+          radius="0.45"
+          position="0 4.5 0"
+        ></a-cylinder>
+        <a-sphere color="#2a5a18" radius="6" position="0 12 0"></a-sphere>
+      </a-entity>
+
+      <!-- ── TREES — right cluster ── -->
+      <a-entity position="45 0 -18">
+        <a-cylinder
+          color="#4a2e10"
+          height="12"
+          radius="0.55"
+          position="0 6 0"
+        ></a-cylinder>
+        <a-sphere color="#2d6018" radius="8" position="0 15 0"></a-sphere>
+      </a-entity>
+      <a-entity position="52 0 -5">
+        <a-cylinder
+          color="#3a2208"
+          height="9"
+          radius="0.4"
+          position="0 4.5 0"
+        ></a-cylinder>
+        <a-sphere color="#346020" radius="6" position="0 12 0"></a-sphere>
+      </a-entity>
+      <a-entity position="40 0 8">
+        <a-cylinder
+          color="#4a2e10"
+          height="7"
+          radius="0.35"
+          position="0 3.5 0"
+        ></a-cylinder>
+        <a-sphere color="#254e14" radius="4.5" position="0 9.5 0"></a-sphere>
+      </a-entity>
+
+      <!-- ── TREES — rear background ── -->
+      <a-entity position="-30 0 -55">
+        <a-cylinder
+          color="#3a2208"
+          height="14"
+          radius="0.6"
+          position="0 7 0"
+        ></a-cylinder>
+        <a-sphere color="#2a5818" radius="9" position="0 18 0"></a-sphere>
+      </a-entity>
+      <a-entity position="0 0 -60">
+        <a-cylinder
+          color="#4a2e10"
+          height="16"
+          radius="0.65"
+          position="0 8 0"
+        ></a-cylinder>
+        <a-sphere color="#306018" radius="10" position="0 20 0"></a-sphere>
+      </a-entity>
+      <a-entity position="30 0 -52">
+        <a-cylinder
+          color="#3a2208"
+          height="13"
+          radius="0.55"
+          position="0 6.5 0"
+        ></a-cylinder>
+        <a-sphere color="#2d5a18" radius="8.5" position="0 17 0"></a-sphere>
+      </a-entity>
+
+      <!-- ── SHRUBS near building ── -->
+      <a-sphere position="-15 1 10" radius="1.2" color="#3a6018"></a-sphere>
+      <a-sphere position="-12 0.8 10.5" radius="0.9" color="#426818"></a-sphere>
+      <a-sphere position="8 1 10" radius="1.1" color="#3a6018"></a-sphere>
+      <a-sphere position="11 0.9 10.4" radius="0.8" color="#306018"></a-sphere>
+      <a-sphere position="-18 0.8 -8" radius="1.0" color="#3a6018"></a-sphere>
+      <a-sphere position="15 0.9 -10" radius="1.3" color="#2d5a18"></a-sphere>
+
+      <!-- ── BOUNDARY / PERIMETER WALL ── -->
+      <a-box
+        position="0 1 55"
+        width="120"
+        height="2.2"
+        depth="0.4"
+        color="#c8c0b0"
+        shadow="cast:true"
+      ></a-box>
+      <a-box
+        position="0 1 -55"
+        width="120"
+        height="2.2"
+        depth="0.4"
+        color="#c8c0b0"
+      ></a-box>
+      <a-box
+        position="-60 1 0"
+        width="0.4"
+        height="2.2"
+        depth="110"
+        color="#c8c0b0"
+      ></a-box>
+      <a-box
+        position="60 1 0"
+        width="0.4"
+        height="2.2"
+        depth="110"
+        color="#c8c0b0"
+      ></a-box>
+      <!-- Gate pillars -->
+      <a-box
+        position="-8 1.8 55"
+        width="1.2"
+        height="3.6"
+        depth="1.2"
+        color="#aaa098"
+      ></a-box>
+      <a-box
+        position="8 1.8 55"
+        width="1.2"
+        height="3.6"
+        depth="1.2"
+        color="#aaa098"
+      ></a-box>
+      <!-- Pillar caps -->
+      <a-box
+        position="-8 3.8 55"
+        width="1.5"
+        height="0.3"
+        depth="1.5"
+        color="#c8963c"
+      ></a-box>
+      <a-box
+        position="8 3.8 55"
+        width="1.5"
+        height="0.3"
+        depth="1.5"
+        color="#c8963c"
+      ></a-box>
+
+      <!-- ── DRIVEWAY & PATH EXTENSIONS ── -->
+      <a-plane
+        material="color: #9a9590"
+        position="0 0.12 42"
+        rotation="-90 0 0"
+        width="16"
+        height="26"
+        shadow="receive:true"
+      >
+      </a-plane>
+
+      <!-- ── LAMP POSTS ── -->
+      <a-entity position="-10 0 40">
+        <a-cylinder
+          color="#555550"
+          height="6"
+          radius="0.12"
+          position="0 3 0"
+        ></a-cylinder>
+        <a-sphere
+          color="#ffe8a0"
+          radius="0.35"
+          position="0 6.2 0"
+          material="color: #ffe8a0; emissive: #ffe8a0; emissiveIntensity: 0.8"
+        >
+        </a-sphere>
+        <a-light
+          type="point"
+          color="#ffe8a0"
+          intensity="0.6"
+          distance="14"
+          position="0 6.2 0"
+        ></a-light>
+      </a-entity>
+      <a-entity position="10 0 40">
+        <a-cylinder
+          color="#555550"
+          height="6"
+          radius="0.12"
+          position="0 3 0"
+        ></a-cylinder>
+        <a-sphere
+          color="#ffe8a0"
+          radius="0.35"
+          position="0 6.2 0"
+          material="color: #ffe8a0; emissive: #ffe8a0; emissiveIntensity: 0.8"
+        >
+        </a-sphere>
+        <a-light
+          type="point"
+          color="#ffe8a0"
+          intensity="0.6"
+          distance="14"
+          position="0 6.2 0"
+        ></a-light>
+      </a-entity>
+
+      <!-- ── FLOATING DUST PARTICLES — golden hour atmosphere ── -->
+      <!-- Subtle slow-drifting spheres to simulate dust/pollen in the light -->
+      <a-sphere
+        id="p1"
+        position="5 4 -10"
+        radius="0.06"
+        material="color:#f5d090;transparent:true;opacity:0.55"
+      ></a-sphere>
+      <a-sphere
+        id="p2"
+        position="-8 6 -15"
+        radius="0.05"
+        material="color:#f5d090;transparent:true;opacity:0.45"
+      ></a-sphere>
+      <a-sphere
+        id="p3"
+        position="12 3 -8"
+        radius="0.07"
+        material="color:#f5d090;transparent:true;opacity:0.5"
+      ></a-sphere>
+      <a-sphere
+        id="p4"
+        position="-3 8 -20"
+        radius="0.04"
+        material="color:#f5d090;transparent:true;opacity:0.4"
+      ></a-sphere>
+      <a-sphere
+        id="p5"
+        position="18 5 -5"
+        radius="0.06"
+        material="color:#f5d090;transparent:true;opacity:0.5"
+      ></a-sphere>
+
+      <!-- ── DISTANT CITY SILHOUETTE — horizon backdrop ── -->
+      <a-box
+        position="-35 12 -80"
+        width="8"
+        height="24"
+        depth="1"
+        color="#c8a070"
+        opacity="0.25"
+      ></a-box>
+      <a-box
+        position="-24 8 -80"
+        width="6"
+        height="16"
+        depth="1"
+        color="#c8a070"
+        opacity="0.22"
+      ></a-box>
+      <a-box
+        position="-14 10 -80"
+        width="5"
+        height="20"
+        depth="1"
+        color="#c8a070"
+        opacity="0.2"
+      ></a-box>
+      <a-box
+        position="-4 7 -80"
+        width="7"
+        height="14"
+        depth="1"
+        color="#c8a070"
+        opacity="0.22"
+      ></a-box>
+      <a-box
+        position="8 15 -80"
+        width="6"
+        height="30"
+        depth="1"
+        color="#c8a070"
+        opacity="0.25"
+      ></a-box>
+      <a-box
+        position="18 9 -80"
+        width="8"
+        height="18"
+        depth="1"
+        color="#c8a070"
+        opacity="0.2"
+      ></a-box>
+      <a-box
+        position="30 11 -80"
+        width="5"
+        height="22"
+        depth="1"
+        color="#c8a070"
+        opacity="0.22"
+      ></a-box>
+      <a-box
+        position="42 7 -80"
+        width="9"
+        height="14"
+        depth="1"
+        color="#c8a070"
+        opacity="0.18"
+      ></a-box>
+
+      <!-- ── BIRDS — simple animated V shapes high in sky ── -->
+      <a-entity id="bird-group" position="0 40 -30">
+        <a-entity id="bird1" position="0 0 0">
+          <a-box
+            width="1.2"
+            height="0.08"
+            depth="0.08"
+            rotation="0 0 20"
+            position="-0.6 0 0"
+            color="#2a1a0e"
+            opacity="0.7"
+          ></a-box>
+          <a-box
+            width="1.2"
+            height="0.08"
+            depth="0.08"
+            rotation="0 0 -20"
+            position="0.6 0 0"
+            color="#2a1a0e"
+            opacity="0.7"
+          ></a-box>
+        </a-entity>
+        <a-entity id="bird2" position="3 1 0">
+          <a-box
+            width="1.0"
+            height="0.07"
+            depth="0.07"
+            rotation="0 0 18"
+            position="-0.5 0 0"
+            color="#2a1a0e"
+            opacity="0.65"
+          ></a-box>
+          <a-box
+            width="1.0"
+            height="0.07"
+            depth="0.07"
+            rotation="0 0 -18"
+            position="0.5 0 0"
+            color="#2a1a0e"
+            opacity="0.65"
+          ></a-box>
+        </a-entity>
+        <a-entity id="bird3" position="-3 0.5 0">
+          <a-box
+            width="0.9"
+            height="0.07"
+            depth="0.07"
+            rotation="0 0 22"
+            position="-0.45 0 0"
+            color="#2a1a0e"
+            opacity="0.6"
+          ></a-box>
+          <a-box
+            width="0.9"
+            height="0.07"
+            depth="0.07"
+            rotation="0 0 -22"
+            position="0.45 0 0"
+            color="#2a1a0e"
+            opacity="0.6"
+          ></a-box>
+        </a-entity>
+        <a-entity id="bird4" position="6 2 0">
+          <a-box
+            width="0.8"
+            height="0.06"
+            depth="0.06"
+            rotation="0 0 16"
+            position="-0.4 0 0"
+            color="#2a1a0e"
+            opacity="0.55"
+          ></a-box>
+          <a-box
+            width="0.8"
+            height="0.06"
+            depth="0.06"
+            rotation="0 0 -16"
+            position="0.4 0 0"
+            color="#2a1a0e"
+            opacity="0.55"
+          ></a-box>
+        </a-entity>
+      </a-entity>
+    </a-scene>
+
+    <script>
+      // ── ANIMATED WATER ─────────────────────────────────────────────
+      document.addEventListener("DOMContentLoaded", function () {
+        const waters = document.querySelectorAll(".water");
+        let offset = 0;
+        const speed = 0.002;
+
+        function animateWater() {
+          offset += speed;
+          waters.forEach(function (water) {
+            const mat = water.getAttribute("material");
+            const currentOpacity = mat && mat.opacity ? mat.opacity : 0.6;
+            water.setAttribute("material", {
+              src: "Imgs/water.jpeg",
+              transparent: true,
+              opacity: currentOpacity,
+              repeat: "2 2",
+              offset: offset + " " + offset * 0.7,
+            });
+          });
+          requestAnimationFrame(animateWater);
+        }
+
+        animateWater();
+      });
+
+      // ── ANIMATED SKY — slow colour shift dawn → golden hour ────────
+      document.addEventListener("DOMContentLoaded", function () {
+        const sky = document.getElementById("sky");
+        const colours = [
+          { r: 220, g: 130, b: 60 }, // deep orange dawn
+          { r: 232, g: 160, b: 64 }, // golden hour
+          { r: 245, g: 185, b: 90 }, // bright warm noon
+          { r: 232, g: 160, b: 64 }, // back to golden
+          { r: 220, g: 130, b: 60 }, // cycle
+        ];
+        let ci = 0;
+        let t = 0;
+        const duration = 800; // frames per transition
+
+        function lerpColour(a, b, f) {
+          return {
+            r: Math.round(a.r + (b.r - a.r) * f),
+            g: Math.round(a.g + (b.g - a.g) * f),
+            b: Math.round(a.b + (b.b - a.b) * f),
+          };
+        }
+
+        function toHex(c) {
+          return (
+            "#" +
+            c.r.toString(16).padStart(2, "0") +
+            c.g.toString(16).padStart(2, "0") +
+            c.b.toString(16).padStart(2, "0")
+          );
+        }
+
+        function animateSky() {
+          t++;
+          if (t >= duration) {
+            t = 0;
+            ci = (ci + 1) % (colours.length - 1);
+          }
+          const from = colours[ci];
+          const to = colours[ci + 1];
+          const col = lerpColour(from, to, t / duration);
+          sky.setAttribute("color", toHex(col));
+          requestAnimationFrame(animateSky);
+        }
+
+        animateSky();
+      });
+
+      // ── FLOATING DUST PARTICLES ────────────────────────────────────
+      document.addEventListener("DOMContentLoaded", function () {
+        const particles = [
+          {
+            el: document.getElementById("p1"),
+            ox: 5,
+            oy: 4,
+            oz: -10,
+            sp: 0.008,
+            amp: 1.2,
+          },
+          {
+            el: document.getElementById("p2"),
+            ox: -8,
+            oy: 6,
+            oz: -15,
+            sp: 0.005,
+            amp: 0.9,
+          },
+          {
+            el: document.getElementById("p3"),
+            ox: 12,
+            oy: 3,
+            oz: -8,
+            sp: 0.007,
+            amp: 1.5,
+          },
+          {
+            el: document.getElementById("p4"),
+            ox: -3,
+            oy: 8,
+            oz: -20,
+            sp: 0.004,
+            amp: 1.0,
+          },
+          {
+            el: document.getElementById("p5"),
+            ox: 18,
+            oy: 5,
+            oz: -5,
+            sp: 0.009,
+            amp: 0.8,
+          },
+        ];
+        let tick = 0;
+
+        function animateParticles() {
+          tick += 0.01;
+          particles.forEach(function (p) {
+            const x = p.ox + Math.sin(tick * p.sp * 100) * p.amp;
+            const y = p.oy + Math.sin(tick * p.sp * 80 + 1) * (p.amp * 0.5);
+            const z = p.oz + Math.cos(tick * p.sp * 60) * (p.amp * 0.6);
+            p.el.setAttribute("position", x + " " + y + " " + z);
+          });
+          requestAnimationFrame(animateParticles);
+        }
+
+        animateParticles();
+      });
+
+      // ── BIRDS DRIFTING ACROSS SKY ──────────────────────────────────
+      document.addEventListener("DOMContentLoaded", function () {
+        const birdGroup = document.getElementById("bird-group");
+        let bx = -80;
+
+        function animateBirds() {
+          bx += 0.04;
+          if (bx > 120) bx = -80;
+          birdGroup.setAttribute("position", bx + " 40 -30");
+          requestAnimationFrame(animateBirds);
+        }
+
+        animateBirds();
+      });
+    </script>
+  </body>
+</html>

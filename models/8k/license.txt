@@ -1,0 +1,11 @@
+Model Information:
+* title:	Villa Lisse - Simple Curtains
+* source:	https://sketchfab.com/3d-models/villa-lisse-simple-curtains-0e6a827c72d74a33a0942d108793bf89
+* author:	pjotr.van.schothorst (https://sketchfab.com/pjotr.van.schothorst)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Villa Lisse - Simple Curtains" (https://sketchfab.com/3d-models/villa-lisse-simple-curtains-0e6a827c72d74a33a0942d108793bf89) by pjotr.van.schothorst (https://sketchfab.com/pjotr.van.schothorst) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
